@@ -12,7 +12,7 @@ nome repo: db-universityModellizzare la struttura di un database per memorizzare
 
 Utilizzare https://www.drawio.com/ per la creazione dello schema. Esportare quindi il diagramma in jpg e caricarlo nella repo.
 
----------------------------------------------------- QUERY ----------------------------------------
+---------------------------------------------------- QUERY 1 ----------------------------------------
 1: 
 SELECT *
 FROM `students`
@@ -34,10 +34,10 @@ FROM `courses`
 WHERE `period` = 'I semestre'
 AND `year` = '1'
 
-5: (non torna)
+5: 
 SELECT * 
 FROM `exams`
-WHERE `hour` LIKE '14%'
+WHERE `hour` <= 14
 AND `date` = '2020-06-20'
 
 6:
@@ -53,3 +53,76 @@ FROM `departments`
 SELECT COUNT(`id`)
 FROM `teachers`
 WHERE `phone` IS NULL
+
+
+-------------------------------------------- QUERY JOIN ----------------------------------------
+1:
+SELECT `students`.`id` AS 'studenti'
+FROM `degrees`
+INNER JOIN `students`
+ON `degrees`.`id` = `students`.`degree_id`
+WHERE `degrees`.`name` = 'Corso di Laurea in Economia'
+
+2:
+SELECT `degrees`.`id`, `degrees`.`name`
+FROM `departments`
+INNER JOIN `degrees`
+ON `departments`.`id` = `degrees`.`department_id`
+WHERE `degrees`.`level` = 'Magistrale'
+AND `departments`.`name` = 'Dipartimento di Neuroscienze'
+
+3:
+SELECT `courses`.`id`, `courses`.`name`, `teachers`.`id` AS 'Fulvio_Amato_ID'
+FROM `courses`
+INNER JOIN `course_teacher` ON `course_teacher`.`course_id` = `courses`.`id`
+INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+WHERE `teachers`.`name` = 'Fulvio'
+AND `teachers`.`surname` = 'Amato'
+
+4:
+SELECT `students`.`id` AS 'student_id',
+`students`.`name`,
+`students`.`surname`,
+`degrees`.*,
+`departments`.`name`
+FROM `departments`
+INNER JOIN `degrees` ON `departments`.`id` = `degrees`.`department_id`
+INNER JOIN `students` ON `degrees`.`id` = `students`.`degree_id`
+ORDER BY `students`.`surname` ASC
+
+5:
+SELECT `degrees`.`id` AS 'degree_id',
+`degrees`.`name`,
+`courses`.`id` AS 'course_id',
+`courses`.`name`,
+`courses`.`period`,
+`courses`.`cfu`,
+`teachers`.`id` AS 'teacher_id',
+`teachers`.`name`,
+`teachers`.`surname`
+FROM `degrees`
+INNER JOIN `courses` ON `degrees`.`id` = `courses`.`degree_id`
+INNER JOIN `course_teacher` ON `course_teacher`.`course_id` = `courses`.`id`
+INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+ORDER BY `degrees`.`id` ASC
+
+6:
+SELECT `teachers`.`id`, `teachers`.`name`, `teachers`.`surname`
+FROM `departments`
+INNER JOIN `degrees` ON `departments`.`id` = `degrees`.`department_id`
+INNER JOIN `courses` ON `degrees`.`id` = `courses`.`degree_id`
+INNER JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id`
+INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+WHERE `departments`.`name` = 'Dipartimento di Matematica'
+
+7:
+
+
+-------------------------------------------- QUERY GROUP BY ----------------------------------------
+1:
+
+2:
+
+3:
+
+4:
