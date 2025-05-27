@@ -120,6 +120,9 @@ WHERE `departments`.`name` = 'Dipartimento di Matematica'
 
 -------------------------------------------- QUERY GROUP BY ----------------------------------------
 1:
+SELECT COUNT(*) AS `numero_studenti`, YEAR(`enrolment_date`) AS `anno_iscrizione`
+FROM `students`
+GROUP BY `anno_iscrizione` 
 
 2:
 
