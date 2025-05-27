@@ -125,6 +125,9 @@ FROM `students`
 GROUP BY `anno_iscrizione` 
 
 2:
+SELECT COUNT(*) AS `numero_insegnanti`, `office_address` AS `edificio`
+FROM `teachers`
+GROUP BY `edificio` 
 
 3:
 
