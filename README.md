@@ -130,5 +130,11 @@ FROM `teachers`
 GROUP BY `edificio` 
 
 3:
+SELECT AVG(`vote`) AS `media_voti`, `exam_id`
+FROM `exam_student`
+GROUP BY `exam_id` 
 
 4:
+SELECT COUNT(*) AS `corsi_di_laurea`, `department_id`
+FROM `degrees`
+GROUP BY `department_id` 
