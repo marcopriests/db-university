@@ -107,7 +107,7 @@ INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
 ORDER BY `degrees`.`id` ASC
 
 6:
-SELECT `teachers`.`id`, `teachers`.`name`, `teachers`.`surname`
+SELECT DISTINCT `teachers`.`id`, `teachers`.`name`, `teachers`.`surname`
 FROM `departments`
 INNER JOIN `degrees` ON `departments`.`id` = `degrees`.`department_id`
 INNER JOIN `courses` ON `degrees`.`id` = `courses`.`degree_id`
@@ -116,6 +116,14 @@ INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
 WHERE `departments`.`name` = 'Dipartimento di Matematica'
 
 7:
+SELECT * `students`.`id`, `students`.`name`, `students`.`surname`, `courses`.`name` AS `course_name`,
+COUNT(`exam_student`.`vote`) AS `numero_tentativi`, MAX(`exam_student`.`vote`) AS `voto_massimo`
+FORM `students`
+JOIN `exam_student` ON `students`.`id` = `exam_student`.`student_id`
+JOIN `exams` ON `exams`.`id` = `exam_student`.`exam_id`
+JOIN `courses` ON `courses`.`id` = `exams`.`course_id`
+GROUP BY `students`.`id`, `courses`.`id`
+HAVING `voto_massimo` >= 18
 
 
 -------------------------------------------- QUERY GROUP BY ----------------------------------------
